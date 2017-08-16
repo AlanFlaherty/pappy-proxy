@@ -65,19 +65,19 @@ if ! type "pip" > /dev/null; then
     fi
 
     if prompt_yn "Installation requires pip. Install pip using \"sudo easy_install pup\"?"; then
-        require sudo easy_install pip;
+        require easy_install pip;
     else
         echo "Please install pip and try the installation again"
         exit 1;
     fi
 fi
 
-cd /tmp
-if python -c "import pappyproxy" &> /dev/null; then
-    echo "An earlier version of pappy appears to be installed. Please remove it and try installation again."
-    echo "This can likely be done by running \"pip uninstall pappyproxy\""
-    exit 1;
-fi
+#cd /tmp
+#if python -c "import pappyproxy" &> /dev/null; then
+#    echo "An earlier version of pappy appears to be installed. Please remove it and try installation again."
+#    echo "This can likely be done by running \"pip uninstall pappyproxy\""
+#    exit 1;
+#fi
 cd "$INSTALLDIR"
 
 # Set up fake gopath
@@ -123,17 +123,21 @@ require find "$INSTALLDIR/pappyproxy" -iname "*.pyc" -exec rm -f {} \;
 # Set up the virtual environment
 if ! type "virtualenv" > /dev/null; then
     if prompt_yn "\"virtualenv\" not installed. Install using pip?"; then
-        require sudo pip install virtualenv
+        require pip install virtualenv
     else
         exit 1;
     fi
 fi
 
 VENVDIR="$DATADIR/venv";
+echo VENVDIR : $VENVDIR
+
 require mkdir -p "$VENVDIR";
 require virtualenv -p "$(which python3)" "$VENVDIR";
 cd "$VENVDIR";
-require source bin/activate;
+
+source bin/activate;
+echo INSTALLDIR : $INSTALLDIR
 cd "$INSTALLDIR";
 
 if [ -z $DEV ]; then

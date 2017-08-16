@@ -1,3 +1,5 @@
+#print('Python', python_version())
+
 import base64
 import copy
 import datetime
@@ -11,9 +13,8 @@ import vim
 import threading
 
 from collections import namedtuple
-from urlparse import urlparse, ParseResult, parse_qs
-from urllib import urlencode
-import Cookie as hcookies
+from urllib.parse import urlparse, ParseResult, parse_qs,  urlencode
+import http.cookies as hcookies
 
 ## STRIPPED DOWN COPY OF HTTP OBJECTS / COMMS
 
@@ -1558,7 +1559,7 @@ def set_up_windows():
     b1 = vim.current.buffer
     vim.command("let s:b1=bufnr('$')")
 
-    print msg_addr
+    print(msg_addr)
     comm_type, comm_addr = msg_addr.split(":", 1)
     set_conn(comm_type, comm_addr)
     with ProxyConnection(kind=comm_type, addr=comm_addr) as conn:
