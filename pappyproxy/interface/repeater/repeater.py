@@ -1450,11 +1450,11 @@ def parse_rsp_sline(sline):
     return ResponseStatusLine(int(pmajor), int(pminor), int(status_code), reason.decode())
 
 def _parse_message(bs, sline_parser):
-    header_env, body = re.split(b"\r?\n\r?\n", bs, 1)
-    status_line, header_bytes = re.split(b"\r?\n", header_env, 1)
+    header_env, body = re.split(b"\r?\n\r?\n", bs, 1, flags=re.ASCII)
+    status_line, header_bytes = re.split(b"\r?\n", header_env, 1, flags=re.ASCII)
     h = Headers()
-    for l in re.split(b"\r?\n", header_bytes):
-        k, v = l.split(b": ", 1)
+    for l in re.split(b"\r?\n", header_bytes, flags=re.ASCII):
+        k, v = l.split(b": ", 1, flags=re.ASCII)
         if k.lower != 'content-length':
             h.add(k.decode(), v.decode())
     h.add("Content-Length", str(len(body)))
@@ -1589,6 +1589,7 @@ def submit_current_buffer():
     vim.command("wincmd h")
     full_request = '\n'.join(curbuf)
 
+    print("full_request ", full_request)
     req = parse_request(full_request)
     dest_host, dest_port, use_tls, storage_id = dest_loc()
     req.dest_host = dest_host
