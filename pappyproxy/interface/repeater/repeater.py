@@ -13,7 +13,7 @@ import vim
 import threading
 
 from collections import namedtuple
-from urllib.parse import urlparse, ParseResult, parse_qs,  urlencode
+from urllib.parse import urlparse, ParseResult, parse_qs, urlencode
 import http.cookies as hcookies
 
 ## STRIPPED DOWN COPY OF HTTP OBJECTS / COMMS
@@ -1503,7 +1503,7 @@ def run_command(command):
 def set_buffer_content(buf, text):
     buf[:] = None
     first = True
-    for l in text.split('\n'):
+    for l in text.split(b'\n'):
         if first:
             buf[0] = l
             first = False
