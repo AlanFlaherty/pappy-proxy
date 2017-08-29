@@ -1451,9 +1451,9 @@ def parse_rsp_sline(sline):
 
 def _parse_message(bs, sline_parser):
     header_env, body = re.split(b"\r?\n\r?\n", bs.encode(encoding='utf-8'), 1, flags=re.ASCII)
-    status_line, header_bytes = re.split(b"\r?\n", header_env.encode(encoding='utf-8'), 1, flags=re.ASCII)
+    status_line, header_bytes = re.split(b"\r?\n", header_env, 1, flags=re.ASCII)
     h = Headers()
-    for l in re.split(b"\r?\n", header_bytes.encode(encoding='utf-8'), flags=re.ASCII):
+    for l in re.split(b"\r?\n", header_bytes, flags=re.ASCII):
         k, v = l.split(b": ", 1)
         if k.lower != 'content-length':
             h.add(k.decode(), v.decode())
